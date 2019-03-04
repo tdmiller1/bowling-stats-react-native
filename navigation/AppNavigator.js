@@ -5,6 +5,7 @@ import MainTabNavigator from './MainTabNavigator';
 import HomeScreen from '../screens/HomeScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import SignInScreen from '../screens/SignInScreen';
+import AuthLoadingScreen from '../screens/AuthLoadingScreen';
 
 const AppStack = createStackNavigator({ Home: HomeScreen, Other: SettingsScreen });
 const AuthStack = createStackNavigator({ SignIn: SignInScreen });

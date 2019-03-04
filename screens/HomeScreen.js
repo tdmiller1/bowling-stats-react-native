@@ -6,6 +6,8 @@ import {
   StyleSheet,
   Text,
   StatusBar,
+  Button,
+  AsyncStorage,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -17,6 +19,11 @@ export default class HomeScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
+  
+  _signOutAsync = async () => {
+    await AsyncStorage.clear();
+    this.props.navigation.navigate('Auth');
+  };
 
   render() {
     return (
@@ -25,6 +32,7 @@ export default class HomeScreen extends React.Component {
           <Text>Tucker</Text>
           <Text>Daniel</Text>
           <Text>Miller</Text>
+        <Button title="Actually, sign me out :)" onPress={this._signOutAsync} />
       </View>
     );
   }

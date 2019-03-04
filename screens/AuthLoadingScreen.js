@@ -1,4 +1,12 @@
-class AuthLoadingScreen extends React.Component {
+import React from 'react';
+import {
+  StatusBar,
+  View,
+  ActivityIndicator,
+  AsyncStorage
+} from 'react-native';
+
+export default class AuthLoadingScreen extends React.Component {
     constructor() {
       super();
       this._bootstrapAsync();
@@ -16,7 +24,7 @@ class AuthLoadingScreen extends React.Component {
     // Render any loading content that you like here
     render() {
       return (
-        <View style={styles.container}>
+        <View>
           <ActivityIndicator />
           <StatusBar barStyle="default" />
         </View>
