@@ -1,10 +1,13 @@
 import React from 'react';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
-import { AppLoading, Asset, Font, Icon } from 'expo';
+import { AppLoading, Asset, Font, Icon, AuthSession } from 'expo';
 import AppNavigator from './navigation/AppNavigator';
-import Auth0 from 'react-native-auth0';
+// import Auth0 from 'react-native-auth0';
 
-const auth0 = new Auth0({ domain: 'tuckermillerdev.auth0.com', clientId: 'Otg8g3tLLbeDgj8KsXhyyuzQgYR006Bq' });
+// const auth0 = new Auth0({ domain: 'tuckermillerdev.auth0.com', clientId: 'Otg8g3tLLbeDgj8KsXhyyuzQgYR006Bq' });
+
+const auth0ClientId = 'us90SZb8Ycff5cupcpGxFH9fXI5FyBR3';
+const auth0Domain = 'tuckermillerdev.auth0.com';
 
 export default class App extends React.Component {
   state = {
@@ -12,26 +15,6 @@ export default class App extends React.Component {
     accessToken: null,
     name:null
   };
-
-  handleLogin = () => {
-    auth0
-      .webAuth
-      .authorize({scope: 'openid profile email', audience: 'https://todosnative'})
-      .then((credentials) => {
-        auth0
-          .auth
-          .userInfo({token: credentials.accessToken})
-          .then((user) => {
-            this.setState({
-              accessToken: credentials.accessToken,
-              avatar: user.picture,
-              name: user.nickname
-            });
-          })
-          .catch(error => console.error(error))
-      })
-      .catch(error => console.error(error));
-  }
 
   handleLogout = () => {
     this.setState({
@@ -57,8 +40,8 @@ export default class App extends React.Component {
           <AppNavigator screenProps={{
             accessToken: this.state.accessToken,
             name: this.state.name,
-            handleLogin: this.handleLogin,
-            handleLogout: this.handleLogout
+            handleLogin: this._loginWithAuth0,
+            handleLogout: this._loginWithAuth0
           }}/>
         </View>
       );

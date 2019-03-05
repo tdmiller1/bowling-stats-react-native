@@ -14,24 +14,84 @@ import {
 import { WebBrowser } from 'expo';
 
 import { MonoText } from '../components/StyledText';
+const auth0Domain = 'https://tuckermillerdev.auth0.com';
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
   
+
+  state = {
+    email:null,
+    accessToken:null,
+    games: []
+  }
+
   _signOutAsync = async () => {
     await AsyncStorage.clear();
     this.props.navigation.navigate('Auth');
   };
 
+  _retrieveData = async () =>{
+    try{
+      const token = await AsyncStorage.getItem('userToken');
+      if(token!==null){
+        this.setState({accessToken: token})
+        fetch(`${auth0Domain}/userinfo?access_token=${token}`)
+        .then((response) => response.json())
+        .then((result) => {
+          this.setState({
+            email: result.email,
+            accessToken: token
+          });
+          this.pullGames();
+        });
+      }
+    }catch(error){
+      console.log(error)
+    }
+  }
+
+  componentDidMount(){
+    this._retrieveData();
+  }
+
+  componentDidUpdate(){
+    this.pullGames();
+  }
+
+  pullGames = _ => {
+    var host = "https://bowling-stats-server.herokuapp.com"
+    const url = `${host}/games/find?id=${this.state.email}`;
+    fetch(url).then(response => {
+      return response.json().then(body => {
+        if(response.status === 200){
+          this.setState({games: body.games})
+        }
+      })
+    })
+  }
+
+
+  renderGames = () => {
+    if(this.state.games.length != 0){
+      return this.state.games.map(function(game, i){
+        return(
+          <View key={i}>
+            <Text>{game.score}</Text>
+            <Text>{game.date}</Text>
+          </View>
+        )
+      })
+    }
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <StatusBar hidden={true} />
-          <Text>Tucker</Text>
-          <Text>Daniel</Text>
-          <Text>Miller</Text>
+          <View>{this.renderGames()}</View>
         <Button title="Actually, sign me out :)" onPress={this._signOutAsync} />
       </View>
     );
