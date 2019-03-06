@@ -1,4 +1,5 @@
 import React from 'react';
+// import BoxSDK from 'box-node-sdk';
 import {
   Image,
   Platform,
@@ -16,16 +17,20 @@ import { WebBrowser } from 'expo';
 import { MonoText } from '../components/StyledText';
 const auth0Domain = 'https://tuckermillerdev.auth0.com';
 
+// const sdk = new BoxSDK({  clientID: BOX_clientID,  clientSecret: BOX_clientSecret});
+
+
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
   
+  _isMounted = false;
 
   state = {
     email:null,
     accessToken:null,
-    games: []
+    games: [],
   }
 
   _signOutAsync = async () => {
@@ -41,7 +46,7 @@ export default class HomeScreen extends React.Component {
         fetch(`${auth0Domain}/userinfo?access_token=${token}`)
         .then((response) => response.json())
         .then((result) => {
-          this.setState({
+          this._isMounted && this.setState({
             email: result.email,
             accessToken: token
           });
@@ -53,7 +58,13 @@ export default class HomeScreen extends React.Component {
     }
   }
 
+  componentWillUnmount(){
+    this._isMounted = false;
+  }
+
   componentDidMount(){
+    this._isMounted = true;
+    // var client = sdk.getBasicClient(BOX_accesstoken);
     this._retrieveData();
   }
 
@@ -67,7 +78,7 @@ export default class HomeScreen extends React.Component {
     fetch(url).then(response => {
       return response.json().then(body => {
         if(response.status === 200){
-          this.setState({games: body.games})
+          this._isMounted && this.setState({games: body.games})
         }
       })
     })
@@ -87,12 +98,58 @@ export default class HomeScreen extends React.Component {
     }
   }
 
+  otherScreen= async () =>{
+    this.props.navigation.navigate('Camera');
+  }
+
+  createBoxFolder(){
+    // fetch('https://api.box.com/2.0/folders/items?id=69316594941',{
+    //   method:'GET',
+    //   headers: {
+    //     'Authorization':'Bearer QYQldyztR59IGG4BqYPe9JtQLRRXOY0P'
+    //   }
+    // })
+    // .then((response) => {console.log(response)})
+
+    // fetch('https://api.box.com/2.0/folders', {
+    //   method: 'POST',
+    //   headers: {
+    //     Accept: 'application/json',
+    //     'Content-Type': 'application/json',
+    //     'Authorization':'Bearer QYQldyztR59IGG4BqYPe9JtQLRRXOY0P'
+    //   },
+    //   body: JSON.stringify({
+    //     name: 'yourValue',
+    //     parent: {id:"0"},
+    //   }),
+    // }).then((response) => {console.log(response)})
+
+    fetch('https://upload.box.com/api/2.0/files/content', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization':'Bearer QYQldyztR59IGG4BqYPe9JtQLRRXOY0P'
+      },
+      body: JSON.stringify({
+        attributes: {
+          name:"test.png",
+          parent: {id:"0"}
+        },
+        file: this.state.photo
+      }),
+    }).then((response) => {console.log(response)})
+    
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <StatusBar hidden={true} />
           <View>{this.renderGames()}</View>
+        <Button title="Camera" onPress={this.otherScreen} />
         <Button title="Actually, sign me out :)" onPress={this._signOutAsync} />
+        <Button title="Create Box Folder" onPress={this.createBoxFolder} />
       </View>
     );
   }

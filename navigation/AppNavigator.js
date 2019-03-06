@@ -6,15 +6,18 @@ import HomeScreen from '../screens/HomeScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import SignInScreen from '../screens/SignInScreen';
 import AuthLoadingScreen from '../screens/AuthLoadingScreen';
+import CameraScreen from '../screens/CameraScreen';
 
-const AppStack = createStackNavigator({ Home: HomeScreen, Other: SettingsScreen });
+const AppStack = createStackNavigator({ Home: HomeScreen });
 const AuthStack = createStackNavigator({ SignIn: SignInScreen });
+const CameraStack = createStackNavigator({ Camera: CameraScreen })
 
 export default createAppContainer(createSwitchNavigator(
   {
     AuthLoading: AuthLoadingScreen,
     App: AppStack,
-    Auth: AuthStack
+    Auth: AuthStack,
+    Camera: CameraStack
   },{
   // You could add another route here for authentication.
   // Read more at https://reactnavigation.org/docs/en/auth-flow.html

@@ -12,16 +12,20 @@
   },
   "dependencies": {
     "@expo/samples": "2.1.1",
+    "box-node-sdk": "^1.27.0",
     "expo": "^32.0.0",
+    "jwt-decode": "^2.2.0",
+    "mbox": "^0.1.2",
     "react": "16.5.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
-    "react-navigation": "^3.3.2",
     "react-native-auth0": "^1.4.0",
-    "react-native-device-info": "^0.26.4",
+    "react-native-camera": "git+https://git@github.com/react-native-community/react-native-camera.git",
+    "react-native-cli": "^2.0.1",
     "react-native-config": "^0.11.7",
+    "react-native-device-info": "^0.26.4",
     "react-native-restart": "^0.0.9",
     "react-native-sensitive-info": "^5.3.0",
-    "jwt-decode": "^2.2.0"
+    "react-navigation":"^3.3.2"
   },
   "devDependencies": {
     "babel-preset-expo": "^5.0.0",

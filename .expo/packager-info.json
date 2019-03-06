@@ -1,9 +1,9 @@
 {
-  "packagerPort": 19001,
-  "packagerPid": 6664,
-  "expoServerNgrokUrl": "https://du-fem.tdmiller.test.exp.direct",
-  "packagerNgrokUrl": "https://packager.du-fem.tdmiller.test.exp.direct",
-  "ngrokPid": 17044,
+  "packagerPort": null,
+  "packagerPid": null,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null,
   "devToolsPort": 19002,
-  "expoServerPort": 19000
+  "expoServerPort": null
 }
