@@ -103,28 +103,8 @@ export default class HomeScreen extends React.Component {
   }
 
   createBoxFolder(){
-    // fetch('https://api.box.com/2.0/folders/items?id=69316594941',{
-    //   method:'GET',
-    //   headers: {
-    //     'Authorization':'Bearer QYQldyztR59IGG4BqYPe9JtQLRRXOY0P'
-    //   }
-    // })
-    // .then((response) => {console.log(response)})
-
-    // fetch('https://api.box.com/2.0/folders', {
-    //   method: 'POST',
-    //   headers: {
-    //     Accept: 'application/json',
-    //     'Content-Type': 'application/json',
-    //     'Authorization':'Bearer QYQldyztR59IGG4BqYPe9JtQLRRXOY0P'
-    //   },
-    //   body: JSON.stringify({
-    //     name: 'yourValue',
-    //     parent: {id:"0"},
-    //   }),
-    // }).then((response) => {console.log(response)})
-
-    fetch('https://upload.box.com/api/2.0/files/content', {
+    
+    fetch('https://api.box.com/2.0/folders', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -132,13 +112,11 @@ export default class HomeScreen extends React.Component {
         'Authorization':'Bearer QYQldyztR59IGG4BqYPe9JtQLRRXOY0P'
       },
       body: JSON.stringify({
-        attributes: {
-          name:"test.png",
-          parent: {id:"0"}
-        },
-        file: this.state.photo
+        name: 'yourValue',
+        parent: {id:"0"},
       }),
     }).then((response) => {console.log(response)})
+
     
   }
 
