@@ -10,15 +10,13 @@ import {
   Button,
   AsyncStorage,
   TouchableOpacity,
+  TextInput,
   View,
 } from 'react-native';
 import { WebBrowser } from 'expo';
-
-import { MonoText } from '../components/StyledText';
 const auth0Domain = 'https://tuckermillerdev.auth0.com';
 
 // const sdk = new BoxSDK({  clientID: BOX_clientID,  clientSecret: BOX_clientSecret});
-
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -26,11 +24,13 @@ export default class HomeScreen extends React.Component {
   };
   
   _isMounted = false;
-
-  state = {
-    email:null,
-    accessToken:null,
-    games: [],
+  constructor(props) {
+    super(props);
+    this.state = { 
+      email:null,
+      accessToken:null,
+      games: [],
+      text:'placeholder' };
   }
 
   _signOutAsync = async () => {
@@ -102,22 +102,21 @@ export default class HomeScreen extends React.Component {
     this.props.navigation.navigate('Camera');
   }
 
-  createBoxFolder(){
-    
+  // DEV TEST
+  createBoxFolder = () => {
+    const {text} = this.state
     fetch('https://api.box.com/2.0/folders', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-        'Authorization':'Bearer QYQldyztR59IGG4BqYPe9JtQLRRXOY0P'
+        'Authorization':'Bearer ZEbzZBYtYqIavFlfqQqUZAXwVShlOsYT'
       },
       body: JSON.stringify({
-        name: 'yourValue',
+        name: text.toString(),
         parent: {id:"0"},
       }),
     }).then((response) => {console.log(response)})
-
-    
   }
 
   render() {
@@ -127,7 +126,13 @@ export default class HomeScreen extends React.Component {
           <View>{this.renderGames()}</View>
         <Button title="Camera" onPress={this.otherScreen} />
         <Button title="Actually, sign me out :)" onPress={this._signOutAsync} />
+          <TextInput
+          style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+          onChangeText={(text) => this.setState({text})}
+          value={this.state.text}
+        />
         <Button title="Create Box Folder" onPress={this.createBoxFolder} />
+        <Text>{this.state.text}</Text>
       </View>
     );
   }
